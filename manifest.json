@@ -1,0 +1,22 @@
+{
+  "name": "HeoHeo (oo)",
+  "version": "1.0",
+  "description": "My first Chrome extension.",
+  "browser_action": {
+    "default_icon": "images/icon.png",
+    "default_popup": "html/popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*/*","http://*/*"],
+      "js": ["js/jquery.js"],
+	  "css": ["css/style.css"]
+    },
+    {
+      "matches": ["https://*/*","http://*/*"],
+      "js": ["js/scripts.js"]
+    }
+  ],
+  "manifest_version": 2,
+  "web_accessible_resources": ["heo/*"]
+}
