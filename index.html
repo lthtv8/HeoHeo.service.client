@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>jQuery UI Droppable - Default functionality</title>
+
+    <script src="js/jquery.js"></script>
+    <script src="js/test.js"></script>
+    <script src="js/scripts.js"></script>
+
+</head>
+
+<body>
+
+
+    <!-- <div id="test" style="background:red;width:4px;height:4px;border-radius:50%;position:absolute;"></div>
+<div id="test2" style="background:blue;width:4px;height:4px;border-radius:50%;position:absolute;"></div> -->
+
+
+
+    <div class="INFa1 INF1">
+
+        <div class="INFa1a">
+            <div class="INFa1aa" style="border-radius: 5px;border: 1px solid #cda123;">Thông tin</div>
+            <div class="INFa1aa">Mã Gen</div>
+            <div class="INFa1aa" ttInfo="Chưa mở">Tiến hóa</div>
+            <div class="INFa1aa">Danh hiệu</div>
+            <div class="INFa1aa">Thống kê</div>
+        </div>
+
+        <!-- -----------------------------
+		----------------------------------
+		------------HEO info--------------
+		----------------------------------
+		------------------------------ -->
+
+        <div id="INFa1b" class="INFa1b">
+            <div id="INFa1b1">
+                <div class="INFa1b1a">
+                    <div class="INFa1b1aa">
+                        <img class="INFa1b1aaa" src="heo/1/0.png">
+
+                        <div class="INFa1b1aab" ttInfo="Nhấn vào để ĐỔI TÊN cho bé heo.">
+                            <a id="INFa1b1aaba" class="INFa1b1aaba">Heo ngu</a>
+                        </div>
+                    </div>
+
+                    <div class="INFa1b1ab">
+                        <div class="INFa1b1aba">
+                            <div class="INFa1b1abaa">
+                                <span ttInfo="Giống loại heo. Mỗi giống heo có hình dáng và chất lượng khác nhau">Đời: </span>
+                                <a id="INFa1b1abaa.1">F1</a>
+                            </div>
+                            <div class="INFa1b1abaa">
+                                <span ttInfo="Cân nặng của heo. Nếu heo càng nặng thì tốc độ sẽ bị giảm xuống và ngược lại. Click chuột phải để heo tập thể dục và cân nặng sẽ giảm xuống.">Nặng: </span>
+                                <a id="INFa1b1abaa.2">48kg</a>
+                            </div>
+                            <div class="INFa1b1abaa">
+                                <span ttInfo="Số lượng và chất lượng phân của pé heo này trên một khoảng thời gian.">Năng suất </span>
+                                <div id="INFa1b1abaa.3" class="INFa1b1abaaa">
+                                    <img src="">
+                                    <a>/giờ</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="INFa1b1aba">
+                            <div class="INFa1b1abaa">
+                                <span ttInfo="Điểm kinh nghiệm dựa trên số lượng heo ăn vào. Mỗi khi tăng cấp sẽ được tăng thêm điểm CHỈ SỐ ngẫu nhiên và có xác suất thêm TÍCH CÁCH và KỸ NĂNG">Giới tính: </span>
+                                <a id="INFa1b1abaa.6">Đực</a>
+                            </div>
+                            <div class="INFa1b1abaa">
+                                <span ttInfo="Tâm trạng ảnh hưởng tới năng suất của pé heo.">Tâm trạng: </span>
+                                <a id="INFa1b1abaa.7">Vui vẻ</a>
+                            </div>
+                            <div class="INFa1b1abaa">
+                                <span ttInfo="Sau một khoảng thời gian pé heo có thể bị bệnh, điều này sẽ ảnh hưởng tới năng suất của pé heo(Bạn có thể tạo thuốc để chữa bệnh)">Sức khỏe </span>
+                                <a id="INFa1b1abaa.8">Tốt</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="INFa1b1b">
+                    <div class="INFa1b1ba INFa1b1ba-a">
+                        <div class="INFa1b1bab" ttInfo="Chỉ số ảnh hưởng đến khả năng THI ĐẤU trong các cuộc thi.">GEN di truyền</div>
+                        <div class="INFa1b1baa">
+                            <div class="INFa1b1baab">
+                                <span ttInfo="Sức mạnh ảnh khả năng đập đá thành công.">Sinh sản:</span>
+                                <a id="INFa1b1baab.1" class="INFa1b1baaba-7">Rất tốt</a>
+                            </div>
+                        </div>
+                        <div class="INFa1b1baa">
+                            <div class="INFa1b1baab">
+                                <span ttInfo="Tốc độ càng cao thì heo chạy càng nhanh.">Tốc độ:</span>
+                                <a id="INFa1b1baab.2" class="INFa1b1baaba-8">Hoàn hảo</a>
+                            </div>
+                        </div>
+                        <div class="INFa1b1baa">
+                            <div class="INFa1b1baab">
+                                <span ttInfo="Bật nhảy càng cao thì heo nhảy càng cao.">Thể lực:</span>
+                                <a id="INFa1b1baab.3" class="INFa1b1baaba-4">Tệ</a>
+                            </div>
+                        </div>
+                        <div class="INFa1b1baa">
+                            <div class="INFa1b1baab">
+                                <span ttInfo="Thể lực càng cao thì heo càng lâu mệt.">Thể trọng:</span>
+                                <a id="INFa1b1baab.4" class="INFa1b1baaba-6">Tốt</a>
+                            </div>
+                        </div>
+                        <div class="INFa1b1baa">
+                            <div class="INFa1b1baab">
+                                <span ttInfo="Trí tuệ cao thì heo sẽ dễ chọn việc nhảy qua các cục đá thay vì đâm thẳng vào">Đặc tính</span>
+                                <a id="INFa1b1baab.5" class="INFa1b1baaba-2">Khủng khiếp</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="INFa1b1ba INFa1b1ba-b">
+                        <div class="INFa1b1bab" ttInfo="">Đặc tính</div>
+                        <div class="INFa1b1baa">
+                            <div class="INFa1b1baab">
+                                <div ttInfo="">Vui vẻ</div>
+                            </div>
+                        </div>
+                        <div class="INFa1b1baa">
+                            <div class="INFa1b1baab">
+                                <div ttInfo="">Năng động</div>
+                            </div>
+                        </div>
+                        <div class="INFa1b1baa">
+                            <div class="INFa1b1baab">
+                                <div ttInfo="">Ít kỉ</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="INFa1b1ba INFa1b1ba-c">
+                        <div class="INFa1b1bab" ttInfo="">Kỹ năng</div>
+                        <div class="INFa1b1baa">
+                            <div class="INFa1b1baab" style="color: #9e00b9;">
+                                <div ttInfo="">Siêu tốc độ</div>
+                            </div>
+                        </div>
+                        <div class="INFa1b1baa">
+                            <div class="INFa1b1baab">
+                                <div ttInfo="">Heo không phổi</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- -----------------------------
+			----------------------------------
+			------------DANH HIEU-------------
+			----------------------------------
+			------------------------------ -->
+            <div id="INFa1b4">
+				
+            </div>
+
+            <!-- -----------------------------
+			----------------------------------
+			------------DANH HIEU-------------
+			----------------------------------
+			------------------------------ -->
+            <div id="INFa1b4">
+                <div class="INFa1b4a">
+                    <img src="image/pet_menu/f1.png" ttInfo="Chưa hoàn thành">
+                    <img src="image/pet_menu/f2.png" ttInfo="Hoàn thành">
+                </div>
+
+                <div class="INFa1b4b">
+
+
+                    <div class="INFa1b4ba">
+                        <img id="INFa1b4baa" class="INFa1b4baa" src="">
+                        <div class="INFa1b4bab">
+                            <div id="INFa1b4baba" class="INFa1b4baba">Heo đẹp</div>
+                            <div id="INFa1b4babb" class="INFa1b4babb">Cho heo ăn 200 lần</div>
+                            <div id="INFa1b4babc" class="INFa1b4babc">123/200</div>
+                            <div class="INFa1b4babd">+1 Sức mạnh</div>
+                        </div>
+                    </div>
+                    <div class="INFa1b4ba">
+                        <img id="INFa1b4baa" class="INFa1b4baa" src="">
+                        <div class="INFa1b4bab">
+                            <div id="INFa1b4baba" class="INFa1b4baba">Heo đẹp</div>
+                            <div id="INFa1b4babb" class="INFa1b4babb">Cho heo ăn 200 lần</div>
+                            <div id="INFa1b4babc" class="INFa1b4babc">123/200</div>
+                            <div class="INFa1b4babd">+1 Sức mạnh</div>
+                        </div>
+                    </div>
+                    <div class="INFa1b4ba">
+                        <img id="INFa1b4baa" class="INFa1b4baa" src="">
+                        <div class="INFa1b4bab">
+                            <div id="INFa1b4baba" class="INFa1b4baba">Heo đẹp</div>
+                            <div id="INFa1b4babb" class="INFa1b4babb">Cho heo ăn 200 lần</div>
+                            <div id="INFa1b4babc" class="INFa1b4babc">123/200</div>
+                            <div class="INFa1b4babd">+1 Sức mạnh</div>
+                        </div>
+                    </div>
+                    <div class="INFa1b4ba">
+                        <img id="INFa1b4baa" class="INFa1b4baa" src="">
+                        <div class="INFa1b4bab">
+                            <div id="INFa1b4baba" class="INFa1b4baba">Heo đẹp</div>
+                            <div id="INFa1b4babb" class="INFa1b4babb">Cho heo ăn 200 lần</div>
+                            <div id="INFa1b4babc" class="INFa1b4babc">123/200</div>
+                            <div class="INFa1b4babd">+1 Sức mạnh</div>
+                        </div>
+                    </div>
+                    <div class="INFa1b4ba">
+                        <img id="INFa1b4baa" class="INFa1b4baa" src="">
+                        <div class="INFa1b4bab">
+                            <div id="INFa1b4baba" class="INFa1b4baba">Heo đẹp</div>
+                            <div id="INFa1b4babb" class="INFa1b4babb">Cho heo ăn 200 lần</div>
+                            <div id="INFa1b4babc" class="INFa1b4babc">123/200</div>
+                            <div class="INFa1b4babd">+1 Sức mạnh</div>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </div>
+    <div style="z-index:888889;position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(0, 0, 0, 0.88);">
+
+    </div>
+
+
+
+
+
+
+</body>
+
+</html>
