@@ -23,6 +23,7 @@ form{
 	color:#686868;
 	border-radius:1px;
 	font-size: 14px;
+	border:1px solid #a8a8a8;
 }
 .PUP-1b:focus{
 	background:#ffffc8;
@@ -34,7 +35,7 @@ form{
 	width:100%;
 	background:none;
 	color:#686868;
-	border:1px solid #686868;
+	border:1px solid #888888;
 	padding:5px;
 	margin-top:8px;
 	outline:none;
@@ -46,6 +47,7 @@ form{
 
 .PUP-1d:hover{
 	background:#686868 !important;
+	border:1px solid #686868 !important;
 	color:#ffbfcc !important;
 }
 .PUP-1c{
