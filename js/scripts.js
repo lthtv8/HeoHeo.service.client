@@ -1,3 +1,4 @@
+
 var _winX = window.innerWidth;
 var _winY = window.innerHeight;
 $('head').append('<link rel="stylesheet" href="css/style.css" type="text/css" />');
@@ -7,10 +8,11 @@ $(window).resize(function () {
 	this._winY = window.innerHeight;
 	console.log("window resize: _winX=" + _winX + " _winY=" + _winY);
 });
+//if be using this browser tab
 $(window).focus(function () {
 	console.log("in");
 });
-
+//if be not using this browser tab
 $(window).blur(function () {
 	console.log("out");
 });
@@ -27,33 +29,49 @@ class Heo {
 		let _aniArrLen = 0;
 		let _x = 0;
 		let _y = 0;
+		//x velocity
 		let _vX = 0;
+		//y velocity
 		let _vY = 0;
 		let _timeout = 0;
 		let _maxTimeout = 8000;
 
+		//check heo's mother object loaded before or not
 		let _isMomLoaded = false;
+		//check heo's father object loaded before or not
 		let _isDadLoaded = false;
+		//heo's mother object
 		let _momObj = null;
+		//heo's father object
 		let _dadObj = null;
 
 		let $_target = null;
 		let $_targetImage = null;
+		//the distance from browser's left side to left of heo's image
 		let _targetX = 0;
+		//the distance from browser's bottom side to bottom of heo's image
 		let _targetY = 0;
+		//the distance from browser's left side to center of heo's image
 		let _targetWidth = 0;
+		//the distance from browser's bottom side to center of heo's image
 		let _targetHeight = 0;
 
+		//interval move
 		let _move = null;
+		//interval animate
 		let _animate = null;
+		//true: moving , false:stay
 		let _state = true;
-
+		
+		//movement speed
 		let _speed = 1;
+		//affect to size of heo
 		let _petWeight = 35;
+		//the max of height that heo could be. This thing work on responsive
 		let _maxLimitHeight = 0.05;
 
 		let imagePath = "heo/";
-		// html
+		// html object
 		let $_htmlInfo;
 		let $_htmlInfoContent;
 
@@ -76,33 +94,48 @@ class Heo {
 		// let breed;
 
 
+		//create heo UI
 		let init = () => {
 			newTimeout();
+			// css position x of heo
 			let petLeft = "left:" + (Math.floor((Math.random() * (_winX - 100)) + 50)) + "px;";
+			// css position y of heo
 			let petBottom = "bottom:" + (Math.floor((Math.random() * (_winY * _maxLimitHeight)))) + "px;";
+			// get heo default image
 			let petImg = getUrlPath(_heoData.kind + "/0.png");
 			let cssPetImage = "border-radius:50%";
+			// create css for heo
 			let cssPet = "z-index:888888;position:fixed;user-drag: none;user-select: none;-moz-user-select: none;-webkit-user-drag: none;-webkit-user-select: none;-ms-user-select: none;";
-
+			
+			//create heo html object with above css
 			$_target = $("<div>", { "class": "HEOa", "style": cssPet + petLeft + petBottom });
+			//add image to heo html object
 			$_target.append('<div class="HEOaa" style="' + cssPetImage + '"><img src="' + petImg + '" style="width:' + _petWeight + 'px;"></div>');
 			$_targetImage = $_target.children(".HEOaa").children("img");
+			//add heo to browser
 			$("html").append($_target);
-
+			
+			//get x center of heo
 			_targetWidth = $_target.cssInt('width') / 2;
+			//get y center of heo
 			_targetHeight = $_target.cssInt('height');
 
+			//disable right click and show heo info
 			$_target.on("contextmenu", function () {
 				showHeoInfo();
 				return false;
 			});
 			//$("#"+target).on( 'dragstart', function() { return false; } );
-			$_target.click(function () { showPetMenu(); });
+			// $_target.click(function () { showPetMenu(); });
+
+			//create array of movement images
 			petAniInit();
+			//heo start running
 			run();
 		}
 
-		let initHeoData = (data) => {
+		//convert sponse data to internal data
+		let initHeoData = () => {
 			_heoData.kind = data.kind;
 			_heoData.image = imagePath + _heoData.kind + "/0.png"
 			_heoData.name = data.name;
@@ -162,23 +195,25 @@ class Heo {
 			_heoData.dadKind = data.dad_kind;
 
 		}
-		initHeoData(data);
-		// start pet
+		// start running
 		let run = () => {
 			setTimeout(function () {
-				let state = Math.floor((Math.random() * 2));
-				//stay
+				//set image stay for heo
 				petStay();
 				//move
-				// new Position;
-				newPosition();
 				if (_state) {
+					// random a position to move;
+					newPosition();
 					//check moving direction
 					petDirection();
+					//call and store interval move
 					_move = move();
+					//call and store interval animate
 					_animate = animate();
 				}
 				_state = !_state;
+
+				//re-call run
 				run();
 			}, _timeout);
 		}
@@ -189,10 +224,13 @@ class Heo {
 		};
 		// pet moving
 		let move = () => {
+			//clear interval move before
 			clearInterval(_move);
+			// each 50ms heo's position will plus with velocity of x-axis and y-axis
 			return setInterval(function () {
 				_targetX += _vX;
 				_targetY += _vY;
+				//check limit postion can move
 				limitPosition();
 				$_target.css({ 'left': _targetX, 'bottom': _targetY });
 			}, 50);
@@ -210,6 +248,7 @@ class Heo {
 
 		//limit conllision 
 		let limitPosition = () => {
+			//
 			if (_targetX < -_targetWidth) {
 				// petStay();
 				// _x = -_x;
@@ -233,34 +272,45 @@ class Heo {
 			// msTransform Code for IE9
 			// transform Standard syntax
 			let cssRotate = "";
+			//if velocity of x-axis greater than 0. Heo will look at the right side else the left side
 			if (_vX > 0)
 				cssRotate = "rotateY(180deg)";
 			else
 				cssRotate = "rotateY(0deg)";
+
 			$_target.children(".HEOaa").css({ "-ms-transform": cssRotate, "-webkit-transform": cssRotate, "transform": cssRotate });
 		}
 
 		//random position to move
 		let newPosition = () => {
+			//get current x, y of heo(not the center)
 			_targetX = $_target.cssInt('left');
 			_targetY = $_target.cssInt('bottom');
+			// target x to move to
 			_x = Math.floor((Math.random() * (_winX + _targetWidth)) + _targetWidth);
+			// target y to move to
 			_y = Math.floor((Math.random() * (_winY * _maxLimitHeight)));
 			// $("#test").css({"left":(_x-2)+"px","bottom":(_y-2)+"px"});
 			// console.log(_targetX+"--"+_targetY);
 			// $("#test2").css({"left":(_targetX-2)+"px","bottom":(_targetY-2)+"px"});
+
+			//different x and y between the current position to new postion
 			let delX = _x - _targetX;
 			let delY = _y - _targetY;
+			//calculate distance 
 			let S = Math.sqrt(delX * delX + delY * delY);
+			//calculate time 
 			let t = S / _speed;
+			//calculate the velocity of x-axis and y-axis
 			_vX = delX / t;
 			_vY = delY / t;
+			//time to finish moving
 			_timeout = Math.round(t * 50);
 			if (_timeout > _maxTimeout)
 				_timeout = _maxTimeout;
 			// console.log("(_x=" + _x + ") (_y=" + _y + ") (delX=" + delX + ") (delY=" + delY + ") (_vX=" + _vX + ") (_vY=" + _vY + ") (_targetWidth=" + _targetWidth + ") (_t=" + t + ") (_timeout=" + _timeout + ")");
 		}
-		// get pet image to array
+		// put heo's' images to array
 		let petAniInit = () => {
 			switch (_heoData.kind) {
 				case 1:
@@ -268,18 +318,23 @@ class Heo {
 				default:
 					break;
 			}
-
+			//ex: we have 3 states of heo by images: 1 2 3. we will put them into array follow this order: 1 2 3 2 1
 			for (let i = 0; i <= _aniNum; i++)
 				_aniArr.push(_heoData.kind + "/" + i + ".png");
 
 			for (let i = _aniNum - 1; i > 1; i--)
 				_aniArr.push(_heoData.kind + "/" + i + ".png");
-			_aniArrLen = _aniArr.length - 1;
 
+			_aniArrLen = _aniArr.length - 1;
 		}
+
+		//make heo no running
 		let petStay = () => {
+			//clear action moving
 			clearInterval(_move);
+			//clear image moving
 			clearInterval(_animate);
+			//set stay image
 			$_targetImage.attr('src', getUrlPath(_aniArr[0]));
 		}
 		let getUrlPath = (url) => {
@@ -288,29 +343,40 @@ class Heo {
 
 
 		let heoInfoMenu = () => {
+			//create menu background object
 			let $menu = $('<div class="INFa1a"></div>');
+			//init array's' name of tab button's title
 			let arr = ["Thông tin", "Trạng thái", "Mã Gen", "Danh hiệu", "Thống kê"];
 			arr.forEach(function (title, index) {
+				//add tab button to menu object and set click event for that button
 				$menu.append($('<div class="INFa1aa">' + title + '</div>').click(function () {
+					//remove active class of all button
 					$menu.children(".INFa1aa").removeClass("INFa1aa-0");
+					//only set clicked button is active
 					$(this).addClass("INFa1aa-0");
+					
+					//get all content boxes when clicking
 					let $contentChild = $_htmlInfoContent.children("div");
+					//hide those boxes
 					$contentChild.hide();
+					//only show the content box suit clicked button
 					$contentChild.eq(index).show();
-					// alert($contentChild.html());
-					//lert($contentChild.eq(index).find(".scroll-id").val());
+					
+					//hide scroll bar of all content boxes
 					$(".nicescroll-rails").hide();
+					//only show scroll bar of the content box suit clicked button
 					let scrollId = $contentChild.eq(index).find(".scroll-id").val();
 					$("#ascrail" + scrollId).show();
 					// $("#ascrail"+scrollId+"-hr").show();
 				}));
 			});
+			//set first button is active tab
 			$menu.children(".INFa1aa").first().addClass("INFa1aa-0");
 			return $menu;
 		}
 
 		let heoInfoMenuContent1 = () => {
-			console.log(data);
+			// console.log(data);
 			return '<div class="INFa1b1a"> <div class="INFa1b1aa"> <img class="INFa1b1aaa" src="' + _heoData.image + '"> <div class="INFa1b1aab" ' + _ttInfo.changeName + '> <a class="INFa1b1aaba">' + _heoData.name + '</a> </div> </div> <div class="INFa1b1ab"> <div class="INFa1b1aba"> <div class="INFa1b1abaa"> <span ' + _ttInfo.breed + '>' + _heoText.breed + '</span> <a>' + _heoData.breed + '</a> </div> <div class="INFa1b1abaa"> <span ' + _ttInfo.weight + '>' + _heoText.weight + '</span> <a>' + _heoData.weight + '</a> </div> <div class="INFa1b1abaa"> <span ' + _ttInfo.production + '>' + _heoText.production + '</span> <div class="INFa1b1abaaa"> ' + _heoData.production + '<img src="images/other/soul.png">/' + _heoData.productionTime + ' </div> </div> </div> <div class="INFa1b1aba"> <div class="INFa1b1abaa"> <span ' + _ttInfo.gender + '>' + _heoText.gender + '</span> <a>' + _heoData.gender + '</a> </div> <div class="INFa1b1abaa"> <span ' + _ttInfo.feeling + '>' + _heoText.feeling + '</span> <a>' + _heoData.feeling + '</a> </div> <div class="INFa1b1abaa"> <span ' + _ttInfo.stamina + '>' + _heoText.stamina + '</span> <a>' + _heoData.stamina + '</a> </div> </div> </div> </div> <div class="INFa1b1b"> <div class="INFa1b1ba INFa1b1ba-a"> <div class="INFa1b1bab" ' + _ttInfo.gene + '>' + _heoText.gene + '</div> <div class="INFa1b1baa"> <div class="INFa1b1baab"> <span ' + _ttInfo.gene1 + '>' + _heoText.gene1 + '</span> <a class="INFa1b1baaba-' + _heoData.geneData1 + '">' + _heoData.gene1 + '</a> </div> </div> <div class="INFa1b1baa"> <div class="INFa1b1baab"> <span ' + _ttInfo.gene2 + '>' + _heoText.gene2 + '</span> <a class="INFa1b1baaba-' + _heoData.geneData2 + '">' + _heoData.gene2 + '</a> </div> </div> <div class="INFa1b1baa"> <div class="INFa1b1baab"> <span ' + _ttInfo.gene3 + '>' + _heoText.gene3 + '</span> <a class="INFa1b1baaba-' + _heoData.geneData3 + '">' + _heoData.gene3 + '</a> </div> </div> <div class="INFa1b1baa"> <div class="INFa1b1baab"> <span ' + _ttInfo.gene4 + '>' + _heoText.gene4 + '</span> <a class="INFa1b1baaba-' + _heoData.geneData4 + '">' + _heoData.gene4 + '</a> </div> </div> <div class="INFa1b1baa"> <div class="INFa1b1baab"> <span ' + _ttInfo.gene5 + '>' + _heoText.gene5 + '</span> <a class="INFa1b1baaba-' + _heoData.geneData5 + '">' + _heoData.gene5 + '</a> </div> </div> </div> <div class="INFa1b1ba INFa1b1ba-b"> <div class="INFa1b1bab" ' + _ttInfo.special + '>' + _heoText.special + '</div>' + _heoData.specials + '</div> <div class="INFa1b1ba INFa1b1ba-c"> <div class="INFa1b1bab" ' + _ttInfo.skill + '>' + _heoText.skill + '</div>' + _heoData.skills + '</div> </div>';
 		}
 		let heoInfoMenuContent2 = () => {
@@ -373,11 +439,14 @@ class Heo {
 			addNiceScroll(".INFa1b3b");
 			addNiceScroll(".INFa1b4a");
 		}
+		
+		initHeoData();
 		init();
 	}
 }
-// (_x=592) (_y=10) (delX=358.99995267366273) (delY=-3.9408210620704462) (_vX=0.9999397557772052) (_vY=-0.010976557576180095) (_targetWidth=17.5) (_t=359.0215816498158)
+
 var _niceScroll_index = 1999;
+//plugin add nice scroll bar
 var addNiceScroll = (target) => {
 	$(target).niceScroll({
 		cursorwidth: 8,
@@ -390,7 +459,6 @@ var addNiceScroll = (target) => {
 	});
 	$(target).append('<input class="scroll-id" type="hidden" value="' + (++_niceScroll_index) + '">');
 }
-// (_x=592) (_y=10) (delX=358.99995267366273) (delY=-3.9408210620704462) (_vX=0.9999397557772052) (_vY=-0.010976557576180095) (_targetWidth=17.5) (_t=359.0215816498158)
 
 var _ttInfo, _heoText;
 var _feeling = ["Tồi tệ", "Rất buồn", "Buồn", "Bình thường", "Vui", "Rất vui", "Hạnh phúc"];
@@ -402,7 +470,7 @@ var _feelingEventData = [{ "type": 0, "data": 10 }, { "type": 1, "data": 20 }, {
 var _feelingEvents = [{ "img": "", "tit": "asdasdas", "des": "aaaaaaaaaaa", "aff": "" + _feelingEventData[0].data + "%" }, { "img": "", "tit": "Không hài lòng đồng đội", "des": "Không vui với HEO MỌI", "aff": "" + _feelingEventData[0].data + "%" }, { "img": "", "tit": "Chuồng quá hẹp", "des": "Quá đông heo làm heo không có chổ thở", "aff": "" + _feelingEventData[1].data + "%" }, { "img": "", "tit": "Ăn không no", "des": "Cho ăn ít quá", "aff": "" + _feelingEventData[2].data + "%" }];
 
 
-
+// menu text
 let initJsonData = () => {
 	_ttInfo = JSON.parse('{"breed":"Giống thuần chủng là giống tốt nhất.","weight":"Cân Nặng ảnh làm chậm tốc độ của heo nhưng tăng khả năng sản xuất","production":"khả năng sản xuất của heo","gender":"Giới tính của heo. Heo đực có thể đem đi cho giống. Heo cái nhận giống và sinh sản","feeling":"Heo càng hạnh phúc thì cách chỉ số sẽ được tăng thêm","stamina":"Thể lực sẽ tiêu heo khi Thi đấu, luyện tập...","gene":"Mã gen của heo","gene1":"Gen sinh sản","gene2":"Gen tốc độ","gene3":"Gen thể lực","gene4":"Gen thể trọng","gene5":"Gen đặc tính","special":"Những đặc tính của heo","skill":"Kỹ năng của heo","geneShown":"","geneHidden":""}');
 	_heoText = JSON.parse('{"breed":"Giống:","weight":"Nặng:","production":"Năng suất:","productionTime":"giờ","gender":"Giới tính:","feeling":"Tâm trạng:","stamina":"Thể lực:","gene":"GEN di truyền","gene1":"Sinh sản:","gene2":"Tốc độ:","gene3":"Thể lực:","gene4":"Thể trọng:","gene5":"Đặc tính","special":"Đặc tính","skill":"Kỹ năng"}');
@@ -413,7 +481,7 @@ let initJsonData = () => {
 }
 
 initJsonData();
-var _domain = { "aidia": "http://localhost/heoheo.aidia/" };
+var _domain = { "aidia": "http://localhost/HeoHeo.service.server/" };
 var _url = { "getHeoData": _domain.aidia + "heo/data" };
 
 
@@ -489,15 +557,15 @@ let menu6 = () => {
 
 
 let loadData = () => {
-	//let pet = new Pet({ "type": "1" });
-	//let pet1 = new Pet({ "type": "2" });
-	//let pet2 = new Pet({ "type": "3" });
+	//test token
 	let data_post = { "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiMSIsImhlb19pZHMiOlsyLDBdfQ.QvX-IFpNbZoZq5LneeefKcCwRcNjBpljnZ3_cyaoPjA" };
+	//request to get data from api
 	$.post(_url.getHeoData, data_post, function (heos) {
-		console.log("-------------");
+		console.log("------response data-------");
 		console.log(heos);
 		console.log("-------------");
-
+		
+		//call heo by response data
 		heos.forEach(function (heo) {
 			let h = new Heo(heo);
 			// h.showHeoInfo();
